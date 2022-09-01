@@ -27,4 +27,8 @@ const dbConfig = {
   }
 };
 
-module.exports = { serverConfig, dbConfig };
+const authConfig = {
+  key: process.env.AUTH_KEY,
+}
+
+module.exports = { serverConfig, dbConfig, authConfig };

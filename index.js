@@ -6,22 +6,24 @@ const app = express();
 
 const invalidRoute = require('./src/routes/404');
 const categoryRoutes = require('./src/routes/category');
+const personRoutes = require('./src/routes/person');
 
 //Recibir en formato json
 app.use(express.json());
 
 //DB
-const db = require("./src/models");
+const db = require('./src/models');
 db.sequelize.sync();
 
 //Auth
+app.use(personRoutes);
 app.use(guard);
 
 //Routes
-app.use(categoryRoutes)
+app.use(categoryRoutes);
 
 //Handler: 404
-app.use(invalidRoute)
+app.use(invalidRoute);
 
 //Root Handler
 app.get('/', (req, res) => {

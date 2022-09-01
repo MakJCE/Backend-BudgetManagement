@@ -20,5 +20,6 @@ db.sequelize = sequelize;
 
 //Models
 db.category = require("../models/category.js")(sequelize,Sequelize);
+db.person = require("../models/person.js")(sequelize,Sequelize);
 
 module.exports = db;
