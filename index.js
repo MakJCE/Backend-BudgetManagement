@@ -1,12 +1,18 @@
 const express = require('express');
 const { serverConfig } = require('./src/config/config.js');
-const guard = require('./src/guard/guard');
+const cors = require('cors')
 
 const app = express();
 
 const invalidRoute = require('./src/routes/404');
 const categoryRoutes = require('./src/routes/category');
+const movementRoutes = require('./src/routes/movement');
+const bankAccountRoutes = require('./src/routes/bankAccount');
+const transferRoutes = require('./src/routes/transfer');
 const personRoutes = require('./src/routes/person');
+
+//cors policy
+app.use(cors({origin: true}));
 
 //Recibir en formato json
 app.use(express.json());
@@ -15,12 +21,12 @@ app.use(express.json());
 const db = require('./src/models');
 db.sequelize.sync();
 
-//Auth
-app.use(personRoutes);
-app.use(guard);
-
 //Routes
+app.use(personRoutes);
 app.use(categoryRoutes);
+app.use(movementRoutes);
+app.use(bankAccountRoutes);
+app.use(transferRoutes);
 
 //Handler: 404
 app.use(invalidRoute);
