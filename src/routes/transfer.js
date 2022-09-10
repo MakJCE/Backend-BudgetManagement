@@ -1,4 +1,5 @@
 const express = require('express');
+const guard = require('../guard/guard');
 
 const router = express.Router();
 
@@ -8,10 +9,10 @@ const {
   getTransfer
 } = require('../controllers/transfer');
 
-router.post('/transfer', createTransfer);
+router.post('/transfer', guard, createTransfer);
 
-router.get('/transfer', getTransfers);
+router.get('/transfer', guard, getTransfers);
 
-router.get('/transfer/:id', getTransfer);
+router.get('/transfer/:id', guard, getTransfer);
 
 module.exports = router;

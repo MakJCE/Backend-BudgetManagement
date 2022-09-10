@@ -9,7 +9,7 @@ const createCategory = async (req, res) => {
       res.status(200).json({ message: 'Created' });
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).json({ message: err.message });
     });
 };
 

@@ -13,10 +13,10 @@ const register = async (req, res) => {
         res.status(200).json({ message: 'Registered' });
       })
       .catch((err) => {
-        res.status(400).send({ message: err.message });
+        res.status(400).json({ message: err.message });
       });
   } catch (error) {
-    res.status(500).send({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 

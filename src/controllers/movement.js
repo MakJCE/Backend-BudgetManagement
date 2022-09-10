@@ -8,16 +8,20 @@ const BankAccount = db.bankAccount;
 const createMovement = async (req, res) => {
   const body = { ...req.body, PersonId: req.person.id };
   Movement.create(body)
-    .then((movement) => {
-      putAccountFound(
+    .then(async (movement) => {
+      var updatedBank = await putAccountFound(
         movement.BankAccountId,
         movement.type === 'income' ? movement.amount : -1 * movement.amount,
-        movement.badge,
-        res
+        movement.BadgeId
       );
+      if (updatedBank.error) {
+        res.status(400).json({ message: updatedBank.message });
+      } else {
+        res.status(200).json({ updatedBank, movement });
+      }
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).json({ message: err });
     });
 };
 

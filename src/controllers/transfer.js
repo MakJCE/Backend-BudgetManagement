@@ -6,22 +6,25 @@ const Transfer = db.transfer;
 const createTransfer = async (req, res) => {
   const body = {...req.body, PersonId: req.person.id};
   Transfer.create(body)
-    .then((transfer) => {
-      putAccountFound(
-        transfer.senderAccount,
-        -1 * transfer.amount,
-        transfer.badge
-      );
-      putAccountFound(
+    .then(async (transfer) => {
+      var receiverBank = await putAccountFound(
         transfer.receiverAccount,
         transfer.amount,
-        transfer.badge,
-        res
+        transfer.BadgeId
       );
-      res.status(200).json({ message: 'Created' });
+      var senderBank = await putAccountFound(
+        transfer.senderAccount,
+        -1 * transfer.amount,
+        transfer.BadgeId
+      );
+      if (receiverBank.error || senderBank.error) {
+        res.status(400).json({ message: "Failed to update banks founds." });
+      } else {
+        res.status(200).json({ receiverBank, senderBank, transfer });
+      }
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).json({ message: err.message });
     });
 };
 

@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequalize) => {
           allowNull: false
         },
         symbol: {
-          type: Sequalize.INTEGER,
+          type: Sequalize.STRING,
           allowNull: false
         },
       },

@@ -10,7 +10,7 @@ const createBankAccount = async (req, res) => {
       res.status(200).json({ message: 'Created' });
     })
     .catch((err) => {
-      res.status(400).send({ message: err.message });
+      res.status(400).json({ message: err.message });
     });
 };
 
@@ -42,39 +42,40 @@ const getBankAccount = async (req, res) => {
 
 //Get badge percent
 const getPercentValue = (from, to) => {
-  Convertion.findOne({
+  return Convertion.findOne({
     where: {
       badgeFrom: from,
       badgeTo: to
     }
-  }).then((convertion) => {
-    return convertion.percentValue;
-  }).catch((error) => {
-    return undefined;
   });
 };
 
 // deposit or extract found
-const putAccountFound = (bankId, amount, badge, res) => {
-  BankAccount.findOne({ where: { id: bankId } })
-    .then((bankAccount) => {
-      let percentValue = getPercentValue(badge, bankAccount.badge);
-      let newFounds =
-        bankAccount.dataValues.founds + (badge === bankAccount.badge)
-          ? amount
-          : amount * percentValue;
-      bankAccount
-        .update({ founds: newFounds })
-        .then((ba) => {
-          if (res) res.status(200).json({ ba });
-        })
-        .catch((error) => {
-          if (res) res.status(500).json({ message: error });
-        });
-    })
-    .catch((error) => {
-      if (res) res.status(400).json({ message: error });
-    });
+const putAccountFound = (bankId, amount, badge) => {
+  return new Promise((resolve, reject) => {
+    BankAccount.findOne({ where: { id: bankId } })
+      .then(async (bankAccount) => {
+        let percentValue = await getPercentValue(badge, bankAccount.BadgeId),
+          newFounds = 0.0;
+        if (percentValue) {
+          percentValue = percentValue.percentValue;
+          newFounds = bankAccount.dataValues.founds + amount * percentValue;
+        } else {
+          newFounds = bankAccount.dataValues.founds + amount;
+        }
+        bankAccount
+          .update({ founds: newFounds })
+          .then((ba) => {
+            resolve({ ba });
+          })
+          .catch((error) => {
+            reject({ error: true, message: error });
+          });
+      })
+      .catch((error) => {
+        reject({ error: true, message: error });
+      });
+  });
 };
 
 module.exports = {
