@@ -30,7 +30,7 @@ const createTransfer = async (req, res) => {
 
 //Obtain transfers
 const getTransfers = async (req, res) => {
-  Transfer.findAll()
+  Transfer.findAll({ where: { PersonId: req.person.id } })
     .then((transfers) => {
       res.status(200).json({ transfers });
     })

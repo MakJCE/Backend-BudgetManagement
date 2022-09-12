@@ -45,7 +45,8 @@ const login = (req, res) => {
           );
           res.status(200).json({
             message: 'Logged in successfully',
-            token
+            token,
+            person
           });
         } else {
           res.status(400).json({ message: 'Username or password incorrect.1' });
@@ -61,7 +62,7 @@ const login = (req, res) => {
 
 //Obtain person
 const getPerson = async (req, res) => {
-  const id = Number(req.params.id);
+  const id = Number(req.person.id);
   Person.findOne({ where: { id } })
     .then((person) => {
       res.status(200).json({ person });

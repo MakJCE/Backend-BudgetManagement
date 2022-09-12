@@ -27,7 +27,7 @@ const createMovement = async (req, res) => {
 
 //Obtain movements
 const getMovements = async (req, res) => {
-  Movement.findAll()
+  Movement.findAll({ where: { PersonId: req.person.id } })
     .then((movements) => {
       res.status(200).json({ movements });
     })

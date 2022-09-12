@@ -16,7 +16,7 @@ const createBankAccount = async (req, res) => {
 
 //Obtain bankAccounts
 const getBankAccounts = async (req, res) => {
-  BankAccount.findAll()
+  BankAccount.findAll({ where: { PersonId: req.person.id } })
     .then((bankAccounts) => {
       res.status(200).json({ bankAccounts });
     })

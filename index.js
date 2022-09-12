@@ -21,6 +21,11 @@ app.use(express.json());
 const db = require('./src/models');
 db.sequelize.sync();
 
+//Root Handler
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to Budget Management API.' });
+});
+
 //Routes
 app.use(personRoutes);
 app.use(categoryRoutes);
@@ -31,10 +36,6 @@ app.use(transferRoutes);
 //Handler: 404
 app.use(invalidRoute);
 
-//Root Handler
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to Budget Management API.' });
-});
 
 app.listen(serverConfig.port, () => {
   console.log('Server is running.');
