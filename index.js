@@ -6,6 +6,7 @@ const app = express();
 
 const invalidRoute = require('./src/routes/404');
 const categoryRoutes = require('./src/routes/category');
+const badgeRoutes = require('./src/routes/badge');
 const movementRoutes = require('./src/routes/movement');
 const bankAccountRoutes = require('./src/routes/bankAccount');
 const transferRoutes = require('./src/routes/transfer');
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 //Routes
 app.use(personRoutes);
 app.use(categoryRoutes);
+app.use(badgeRoutes);
 app.use(movementRoutes);
 app.use(bankAccountRoutes);
 app.use(transferRoutes);
