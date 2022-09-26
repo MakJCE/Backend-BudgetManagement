@@ -6,10 +6,11 @@ const sequelize = new Sequelize(
   dbConfig.PASSWORD,
   {
     host: dbConfig.HOST,
+    port: dbConfig.PORT,
     dialect: dbConfig.dialect,
     //dialectOptions: dbConfig.dialectOptions,
-    operatorsAliases: dbConfig.operatorsAliases,
-    //ssl: dbConfig.ssl,
+    //operatorsAliases: dbConfig.operatorsAliases,
+    ssl: dbConfig.ssl,
     pool: dbConfig.pool
   }
 );

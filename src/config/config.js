@@ -6,7 +6,7 @@ const serverConfig = {
 };
 const dbConfig = {
   HOST: process.env.DB_HOST,
-  PORT: process.env.PORT,
+  PORT: process.env.DB_PORT,
   USER: process.env.DB_USERNAME,
   PASSWORD: process.env.DB_PSSWD,
   DB: process.env.DB_NAME,
